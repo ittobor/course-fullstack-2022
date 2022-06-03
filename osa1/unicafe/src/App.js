@@ -4,12 +4,14 @@ const goodText = 'Good'
 const neutralText = 'Neutral'
 const badText = 'Bad'
 const allText = 'All'
+const averageText = 'Average'
+const positiveText = 'Positive'
 
 const header1Text = 'Give feedback'
 const header2Text = 'Statistics'
 const fbDisclaimer = 'No feedback given'
 
-const labelPositive = 'Positive'
+
 
 const Header = ({text}) => {
   return (
@@ -21,35 +23,25 @@ const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>{text}</button>
 )
 
-const Count = ({text, value}) => (
+const StatisticLine = ({text, value}) => (
   <div>{text}: {value}</div>
-)
-
-const Average = ({good, neutral, bad}) => (
-  <div>Average: { (good - bad) / (good + neutral + bad) }</div>
-)
-
-const Percentage = ({label, dividend, divisor}) => (
-  <div>{label} {(dividend / divisor) * 100} %</div>
 )
 
 const Statistics = ({good, neutral, bad}) => {
   if (good > 0 || neutral || bad > 0) {
     return (
       <>
-      <Header text={header2Text} />
-      <Count text={goodText} value={good} />
-      <Count text={neutralText} value={neutral} />
-      <Count text={badText} value={bad} />
-      <Count text={allText} value={good+neutral+bad} />
-      <Average good={good} neutral={neutral} bad={bad} />
-      <Percentage label={labelPositive} dividend={good} divisor={(good+neutral+bad)} />
+      <StatisticLine text={goodText} value={good} />
+      <StatisticLine text={neutralText} value={neutral} />
+      <StatisticLine text={badText} value={bad} />
+      <StatisticLine text={allText} value={good+neutral+bad} />
+      <StatisticLine text={averageText} value={(good - bad) / (good + neutral + bad)} />
+      <StatisticLine text={positiveText} value={((good / (good+neutral+bad)) * 100).toString() + '%'} />
       </>
     )
   } else {
     return (
     <>
-    <Header text={header2Text} />
     {fbDisclaimer}
     </>
     )
@@ -68,6 +60,7 @@ const App = () => {
       <Button handleClick={() => setGood(good + 1)} text={goodText} />
       <Button handleClick={() => setNeutral(neutral + 1)} text={neutralText} />
       <Button handleClick={() => setBad(bad + 1)} text={badText} />
+      <Header text={header2Text} />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
