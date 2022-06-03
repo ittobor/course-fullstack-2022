@@ -7,6 +7,7 @@ const allText = 'All'
 
 const header1Text = 'Give feedback'
 const header2Text = 'Statistics'
+const fbDisclaimer = 'No feedback given'
 
 const labelPositive = 'Positive'
 
@@ -33,17 +34,26 @@ const Percentage = ({label, dividend, divisor}) => (
 )
 
 const Statistics = ({good, neutral, bad}) => {
-  return (
+  if (good > 0 || neutral || bad > 0) {
+    return (
+      <>
+      <Header text={header2Text} />
+      <Count text={goodText} value={good} />
+      <Count text={neutralText} value={neutral} />
+      <Count text={badText} value={bad} />
+      <Count text={allText} value={good+neutral+bad} />
+      <Average good={good} neutral={neutral} bad={bad} />
+      <Percentage label={labelPositive} dividend={good} divisor={(good+neutral+bad)} />
+      </>
+    )
+  } else {
+    return (
     <>
     <Header text={header2Text} />
-    <Count text={goodText} value={good} />
-    <Count text={neutralText} value={neutral} />
-    <Count text={badText} value={bad} />
-    <Count text={allText} value={good+neutral+bad} />
-    <Average good={good} neutral={neutral} bad={bad} />
-    <Percentage label={labelPositive} dividend={good} divisor={(good+neutral+bad)} />
+    {fbDisclaimer}
     </>
-  )
+    )
+  }
 }
 
 const App = () => {
