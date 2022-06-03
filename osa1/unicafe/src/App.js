@@ -11,8 +11,6 @@ const header1Text = 'Give feedback'
 const header2Text = 'Statistics'
 const fbDisclaimer = 'No feedback given'
 
-
-
 const Header = ({text}) => {
   return (
     <h1>{text}</h1>
@@ -24,20 +22,22 @@ const Button = ({handleClick, text}) => (
 )
 
 const StatisticLine = ({text, value}) => (
-  <div>{text}: {value}</div>
+  <tr><td>{text}:</td><td>{value}</td></tr>
 )
 
 const Statistics = ({good, neutral, bad}) => {
   if (good > 0 || neutral || bad > 0) {
     return (
-      <>
-      <StatisticLine text={goodText} value={good} />
-      <StatisticLine text={neutralText} value={neutral} />
-      <StatisticLine text={badText} value={bad} />
-      <StatisticLine text={allText} value={good+neutral+bad} />
-      <StatisticLine text={averageText} value={(good - bad) / (good + neutral + bad)} />
-      <StatisticLine text={positiveText} value={((good / (good+neutral+bad)) * 100).toString() + '%'} />
-      </>
+      <table border='0'>
+        <tbody>
+          <StatisticLine text={goodText} value={good} />
+          <StatisticLine text={neutralText} value={neutral} />
+          <StatisticLine text={badText} value={bad} />
+          <StatisticLine text={allText} value={good+neutral+bad} />
+          <StatisticLine text={averageText} value={(good - bad) / (good + neutral + bad)} />
+          <StatisticLine text={positiveText} value={((good / (good+neutral+bad)) * 100).toString() + '%'} />
+        </tbody>
+      </table>
     )
   } else {
     return (
