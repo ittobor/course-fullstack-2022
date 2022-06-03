@@ -10,10 +10,16 @@ const Button = ({handleClick, text}) => (
   <button onClick={handleClick}>{text}</button>
 )
 
-const Result = ({text, value}) => (
-  <div>
-    {text} {value}
-  </div>
+const Count = ({text, value}) => (
+  <div>{text}: {value}</div>
+)
+
+const Average = ({good, neutral, bad}) => (
+  <div>Average: { (good - bad) / (good + neutral + bad) }</div>
+)
+
+const Percentage = ({label, dividend, divisor}) => (
+  <div>{label} {(dividend / divisor) * 100} %</div>
 )
 
 const App = () => {
@@ -25,9 +31,12 @@ const App = () => {
   const goodText = 'Good'
   const neutralText = 'Neutral'
   const badText = 'Bad'
+  const allText = 'All'
 
   const header1Text = 'Give feedback'
   const header2Text = 'Statistics'
+
+  const labelPositive = 'Positive'
 
   return (
     <div >
@@ -36,9 +45,12 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text={neutralText} />
       <Button handleClick={() => setBad(bad + 1)} text={badText} />
       <Header text={header2Text} />
-      <Result text={goodText} value={good} />
-      <Result text={neutralText} value={neutral} />
-      <Result text={badText} value={bad} />
+      <Count text={goodText} value={good} />
+      <Count text={neutralText} value={neutral} />
+      <Count text={badText} value={bad} />
+      <Count text={allText} value={good+neutral+bad} />
+      <Average good={good} neutral={neutral} bad={bad} />
+      <Percentage label={labelPositive} dividend={good} divisor={(good+neutral+bad)} />
     </div>
   )
 }
