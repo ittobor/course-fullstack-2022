@@ -12,6 +12,13 @@ const Votes = ({votes}) => (
   <div>has {votes} votes</div>
 )
 
+const MostAnecdotes = ({anecdote, votes}) => (
+  <>
+    <div>{anecdote}</div>
+    <Votes votes={votes} />
+  </>
+)
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -32,12 +39,20 @@ const App = () => {
     return copy
   }
 
+  const topAnecdote = () => {
+    const copy = [...votesArray]
+    copy.sort()
+    copy.reverse()
+    return votesArray.indexOf(copy[0])
+  }
+
   return (
     <div>
       <div>{anecdotes[selected]}</div>
       <Votes votes={votesArray[selected]} />
       <VoteButton handleClick={() => setVote(voting(selected))} text='Vote' />
       <AnecdoteButton handleClick={() => setSelected((Math.floor(Math.random() * anecdotes.length)))} text='Next anecdote!' />
+      <MostAnecdotes anecdote={anecdotes[topAnecdote()]} votes={votesArray[topAnecdote()]} />
     </div>
   )
 }
