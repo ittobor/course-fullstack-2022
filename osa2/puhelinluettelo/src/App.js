@@ -4,14 +4,15 @@ import Entry from './components/Entry'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '+358401231244'
-    }
+    { name: 'Arto Hellas', number: '+358401231244' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
   
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newNameFilter, setNewNameFilter] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -19,6 +20,10 @@ const App = () => {
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleNameFilterChange = (event) => {
+    setNewNameFilter(event.target.value)
   }
 
   const addEntry = (event) => {
@@ -32,9 +37,18 @@ const App = () => {
     }
   }
 
+  const personsOfInterest = (newNameFilter === '') 
+                          ? persons
+                          : persons.filter(person => 
+                              person.name.toLocaleLowerCase().startsWith(
+                                newNameFilter.toLocaleLowerCase())) 
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+          filter shows with: <input value={newNameFilter} onChange={handleNameFilterChange}/>
+        </div>
       <form onSubmit={addEntry}>
         <div>
           name: <input value={newName} onChange={handleNameChange}/>
@@ -47,8 +61,8 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-        {persons.map(person =>
-          <Entry key={person.name} person={person} />
+        {personsOfInterest.map(poi =>
+          <Entry key={poi.name} person={poi} />
         )}
     </div>
   );
