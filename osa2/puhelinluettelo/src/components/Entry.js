@@ -1,6 +1,6 @@
 const Entry = ({person}) => {
     return (
-        <div>{person.name}</div>
+        <div>{person.name} {person.number}</div>
     )
 }
 
