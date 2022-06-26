@@ -1,6 +1,6 @@
 import CountrySpecs from "./CountrySpecs"
 
-const CountryResultSet = ({foundCountries, countryFinder}) => {
+const CountryResultSet = ({foundCountries, countryFinder, countrySelect}) => {
     if (foundCountries.length > 10 && countryFinder === '') {
         return (
             <div><i>enter parameter to find</i></div>
@@ -11,11 +11,20 @@ const CountryResultSet = ({foundCountries, countryFinder}) => {
         )
     } else if (foundCountries.length > 1 && foundCountries.length < 11) {
         return (
-            <>
+            <form onSubmit={countrySelect}>
             {foundCountries.map(
-                country => <div key={country.name.common}>{country.name.common}</div>
+                country => 
+                <div key={country.name.common}>
+                    {country.name.common}
+                    &nbsp;
+                    <button type="submit"
+                        id={country.name.common}
+                        name={country.name.common}>
+                        show
+                    </button>
+                </div>
             )}
-            </>
+            </form>
         )
     } else if (foundCountries.length === 1) {
         return (

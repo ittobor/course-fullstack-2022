@@ -6,8 +6,10 @@ import CountryResultSet from './components/CountryResultSet'
 const App = () => {
   const [countries, setCountries] = useState([])
   const [countryFinder, setCountryFinder] = useState('')
+  const [useExact, setUseExact] = useState(false) 
   
   const handleCountryFinderChange = (event) => {
+    setUseExact(false)
     setCountryFinder(event.target.value)
   }
 
@@ -19,18 +21,32 @@ const App = () => {
       })  
   }, [])
 
+  const selectCountry = (event) => {
+    event.preventDefault()
+    setUseExact(true)
+    setCountryFinder(
+      event.nativeEvent.submitter.id.toLocaleLowerCase())
+  }
+
   const foundCountries = (countryFinder === '') 
   ? countries
-  : countries.filter(country => 
-    country.name.common.toLocaleLowerCase().includes(
-      countryFinder.toLocaleLowerCase())) 
+  : (useExact)
+    ? countries.filter(country => 
+        country.name.common.toLocaleLowerCase() ===
+        countryFinder.toLocaleLowerCase())
+    : countries.filter(country => 
+        country.name.common.toLocaleLowerCase().includes(
+        countryFinder.toLocaleLowerCase())) 
 
   return (
     <div className="App">
       <CountryFinder
         value={countryFinder}
         onChangeHandler={handleCountryFinderChange} />
-      <CountryResultSet foundCountries={foundCountries} countryFinder={countryFinder} />
+      <CountryResultSet 
+        foundCountries={foundCountries} 
+        countryFinder={countryFinder} 
+        countrySelect={selectCountry} />
     </div>
   )
 }
