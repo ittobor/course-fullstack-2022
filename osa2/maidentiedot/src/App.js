@@ -7,7 +7,7 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [countryFinder, setCountryFinder] = useState('')
   const [useExact, setUseExact] = useState(false) 
-  
+
   const handleCountryFinderChange = (event) => {
     setUseExact(false)
     setCountryFinder(event.target.value)
